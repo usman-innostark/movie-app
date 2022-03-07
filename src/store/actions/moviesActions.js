@@ -1,5 +1,5 @@
 import axios from "axios";
-import {MOVIES_FETCH_FAIL,MOVIES_FETCH_LOADING,MOVIES_FETCH_SUCCESS} from '../constants'
+import {MOVIES_FETCH_FAIL,MOVIES_FETCH_LOADING,MOVIES_FETCH_SUCCESS,FILTER_MOVIES} from '../constants'
 
 export const fetchMovies=()=> async (dispatch)=>{
     try{
@@ -12,3 +12,9 @@ export const fetchMovies=()=> async (dispatch)=>{
         dispatch({type:MOVIES_FETCH_FAIL})
     }
 }
+
+export const filterMovies=(movies,searchText)=>async(dispatch)=>{
+    const filteredMovies=movies.filter((movie)=>movie.title.toLowerCase().includes(searchText.toLowerCase()))
+    dispatch({type:FILTER_MOVIES,payload:filteredMovies})
+}
+

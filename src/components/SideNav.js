@@ -1,16 +1,24 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import HomeIcon from '@mui/icons-material/Home'
+import MovieIcon from '@mui/icons-material/Movie'
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleNav } from "../store/actions/toggleNav";
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 
 export default function TemporaryDrawer() {
+  const dispatch = useDispatch();
+  
+  const navbarStatus=useSelector((state) => state.navbar.show);
+  const handleClickAway = () =>{
+    dispatch(toggleNav(true))
+  }
   const [state, setState] = React.useState({
     left: false,
   });
@@ -27,6 +35,7 @@ export default function TemporaryDrawer() {
   };
 
   const list = (anchor) => (
+    <ClickAwayListener onClickAway={handleClickAway}>
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"
@@ -37,7 +46,7 @@ export default function TemporaryDrawer() {
         <Link to="/" style={{ textDecoration: 'none' }}>
           <ListItem button>
             <ListItemIcon>
-              <InboxIcon />
+              <HomeIcon />
             </ListItemIcon>
             <ListItemText secondary={'Home'} />
           </ListItem>
@@ -45,23 +54,23 @@ export default function TemporaryDrawer() {
         <Link to="/movies" style={{ textDecoration: 'none' }}>
           <ListItem button>
             <ListItemIcon>
-              <InboxIcon />
+              <MovieIcon />
             </ListItemIcon>
             <ListItemText secondary={'Movies'} />
           </ListItem>
         </Link>
       </List>
     </Box>
+    </ClickAwayListener>
   );
 
   return (
     <div>
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
           <Drawer
             anchor={anchor}
-            open={state[anchor]}
+            open={navbarStatus}
             onClose={toggleDrawer(anchor, false)}
           >
             {list(anchor)}

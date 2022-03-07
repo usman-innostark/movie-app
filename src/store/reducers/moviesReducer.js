@@ -2,6 +2,7 @@ import {
   MOVIES_FETCH_LOADING,
   MOVIES_FETCH_FAIL,
   MOVIES_FETCH_SUCCESS,
+  FILTER_MOVIES
 } from "../constants";
 
 const defaultState = {
@@ -29,6 +30,11 @@ const moviesReducer = (state = defaultState, action) => {
         loading: false,
         data: action.payload,
       };
+    case FILTER_MOVIES:
+      return {
+        ...state,
+        data:action.payload
+      }
     default:
       return state;
   }
