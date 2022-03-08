@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import SideNav from "../SideNav";
-import {FormControl,InputLabel,Input,FormHelperText} from '@mui/material'
+import {FormControl,InputLabel,Input} from '@mui/material'
 import { useSelector, useDispatch } from "react-redux";
 import { filterMovies,fetchMovies } from "../../store/actions/moviesActions";
 import { toggleNav } from "../../store/actions/toggleNav";
@@ -16,10 +16,11 @@ export default function SearchAppBar() {
   const [searchText, setSearchText] = React.useState("");
   const movies = useSelector((state) => state.movies.data);
   const navbarStatus=useSelector((state) => state.navbar.show);
+  const selectedGenre=useSelector((state)=>state.genre.selected)
   
   React.useEffect(()=>{
     if(searchText==='') {
-        dispatch(fetchMovies())};
+        dispatch(fetchMovies(selectedGenre))};
   },[searchText])
 
   
@@ -43,6 +44,7 @@ export default function SearchAppBar() {
             aria-label="open drawer"
             sx={{ mr: 2 }}
             onClick={handleNav}
+            data-testid="toggle-btn"
           >
             <MenuIcon />
           </IconButton>

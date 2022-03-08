@@ -1,18 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { Box } from "@mui/material";
-import Movie from "./components/Movie";
+import MapMovies from "../../components/MapMovies";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMovies } from "../../store/actions/moviesActions";
 import { Grid } from "@mui/material";
 import { TailSpin } from "react-loader-spinner";
+import SelectGenre from '../../components/SelectGenre'
 
 const Movies = () => {
+  const movies = useSelector((state) => state.movies);
+  const selectedGenre=useSelector((state)=>state.genre.selected)
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchMovies());
-  }, []);
-  const movies = useSelector((state) => state.movies);
-
+    dispatch(fetchMovies(selectedGenre));
+  }, [selectedGenre]);
+  
   if (movies.loading === true) {
     return (
       <Box
@@ -33,6 +36,7 @@ const Movies = () => {
   }
   return (
     <Grid columnSpacing={{ md: 12, sm: 12 }}>
+      <SelectGenre genre={selectedGenre}/>
       <Box
         sx={{
           display: "flex",
@@ -46,14 +50,7 @@ const Movies = () => {
           gap: 2,
         }}
       >
-        {movies.data.map((movie, idx) => (
-          <Movie
-            title={movie.title}
-            description={movie.description}
-            imgUrl={movie.poster.url}
-            key={idx}
-          />
-        ))}
+        <MapMovies movies={movies.data}/>
       </Box>
     </Grid>
   );

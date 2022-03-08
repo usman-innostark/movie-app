@@ -17,10 +17,10 @@ function App() {
         <Route path="/movies" exact>
           <Movies />
         </Route>
-        <Route path="/form" exact>
+        <Route path="/add-movies" exact>
           <Form />
         </Route>
-        <Router path="/offline">
+        <Router path="/offline-movies">
           <OfflineMovies/>
         </Router>
       </Switch>

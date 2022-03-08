@@ -23,8 +23,9 @@ const Form = () => {
       description: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values,{resetForm}) => {
         dispatch(addOfflineMovie(movies,values))
+        resetForm()
     },
   });
 
